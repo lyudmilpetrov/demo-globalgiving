@@ -18,10 +18,11 @@ const {
     // add webpack bundle visualizer if BUNDLE_VISUALIZE flag is enabled
     process.env.BUNDLE_VISUALIZE == 1 && addBundleVisualizer(),
   
-    // // add an alias for "ag-grid-react" imports
-    // addWebpackAlias({
-    //   ["app-get-theme$"]: path.resolve(__dirname, "src/utility/themesFunctions.js")
-    // }),
+    // add an alias for "ag-grid-react" imports
+    addWebpackAlias({
+      ["app-get-theme$"]: path.resolve(__dirname, "src/utility/themesFunctions.js"),
+      ["app-bar$"]: path.resolve(__dirname, "src/components/app-bar/app-bar.js")
+    }),
   
     // adjust the underlying workbox
     adjustWorkbox((wb) =>
