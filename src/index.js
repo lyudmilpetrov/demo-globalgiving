@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { createContext } from "react";
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+// API calls
+import axios from "axios";
 
+axios.defaults.withCredentials = false;
+axios.defaults.baseURL = process.env.API_URL;
+console.log(process.env);
+export const ConfigContext = createContext();
+export const configValues = {
+  path: "",
+  error: "",
+  message: ""
+};
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
