@@ -10,9 +10,11 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 // context
 export const ConfigContext = createContext();
 export const configValues = {
+  key: process.env.REACT_APP_API_KEY,
   path: "",
   error: "",
-  message: ""
+  message: "",
+  theme: {}
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,7 +23,9 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 root.render(
   <BrowserRouter basename={baseUrl}>
     <React.StrictMode>
-      <App />
+      <ConfigContext.Provider value={configValues}>
+        <App />
+      </ConfigContext.Provider>
     </React.StrictMode>
   </BrowserRouter>
 );

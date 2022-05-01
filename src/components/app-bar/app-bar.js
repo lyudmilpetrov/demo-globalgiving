@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,11 +11,21 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import getDesignTokens from 'app-get-theme';
+import { StateContext } from 'app-state';
+import { styled, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+const pages = ['About', 'Learn', 'Nonprofits', 'Corporate', 'Disasters'];
+const settings = ['My Account', 'Log out'];
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const CustomAppBar = () => {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [context, dispatch] = useContext(StateContext);
+  const [darkTheme, setDarkTheme] = useState(context?.prefersDarkMode ?? false);
 
-const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -33,9 +43,16 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  useEffect(() => {
+    setDarkTheme(prefersDarkMode);
+    const darkModeTheme = createTheme(getDesignTokens((prefersDarkMode ? 'dark' : 'light')));
+    context.theme = darkModeTheme;
+    context.prefersDarkMode = prefersDarkMode;
+    dispatch({ type: 'change', payload: context });
+    // console.log(context);
+  }, [prefersDarkMode]);
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -137,4 +154,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default CustomAppBar;

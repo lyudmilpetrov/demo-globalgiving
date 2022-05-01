@@ -1,0 +1,27 @@
+{
+    "regions": {
+        "region": [
+            {
+                "name": "Africa"
+            },
+            {
+                "name": "Antarctica"
+            },
+            {
+                "name": "Asia and Oceania"
+            },
+            {
+                "name": "Europe and Russia"
+            },
+            {
+                "name": "Middle East"
+            },
+            {
+                "name": "North America"
+            },
+            {
+                "name": "South/Central America and the Caribbean"
+            }
+        ]
+    }
+}
