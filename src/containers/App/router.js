@@ -1,16 +1,16 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from 'react';
 import {
   Routes, Route, useNavigate, Navigate, useLocation
-} from "react-router-dom";
-import Loader from "../../components/loader/index";
-import Home from "../HomePage/index";
+} from 'react-router-dom';
+import Loader from "app-loader";
+import Home from "app-home";
 
 const Router = () => {
   const navigate = useNavigate();
   return (
     <Suspense fallback={Loader()}>
       <Routes>
-        <Route exact path="/" element={<Home/>} />
+        <Route exact path="/" element={<Home />} />
       </Routes>
     </Suspense>
   );

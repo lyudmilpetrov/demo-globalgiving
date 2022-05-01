@@ -1,6 +1,6 @@
-import React, { createContext } from "react";
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './containers/App/index';
+import App from "app-main";
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 // API calls set up

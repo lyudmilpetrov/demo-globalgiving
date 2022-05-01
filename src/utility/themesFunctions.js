@@ -1,16 +1,12 @@
-import { grey, teal, indigo } from "@mui/material/colors";
-import { blueGrey, lightBlue, deepOrange, blue, lightGreen } from "@mui/material/colors";
-import { createTheme } from "@mui/material/styles";
+import { grey, teal, indigo } from '@mui/material/colors';
+import { blueGrey, lightBlue, deepOrange, blue, lightGreen } from '@mui/material/colors';
+import { createTheme } from '@mui/material/styles';
 
 const themeLight = createTheme({
     palette: {
         mode: "light",
         primary: blue,
         divider: blue[700],
-        // background: {
-        //     default: blue[900],
-        //     paper: blue[900],
-        // },
         text: {
             primary: '#000',
             secondary: grey[700],
@@ -82,7 +78,6 @@ themeDark.overrides = {
 };
 
 const getDesignTokens = (mode) => {
-    // // // console.log(mode);
     if (mode === "light") {
         return themeLight;
     } else {

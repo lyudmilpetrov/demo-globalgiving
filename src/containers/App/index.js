@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import Router from "./router";
+import Router from "app-router";
 import { ConfigContext } from "app-entry";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
-import getDesignTokens from 'app-get-theme';
+import { ThemeProvider, useTheme, createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { StateProvider } from './state';
+import getDesignTokens from "app-get-theme";
+import { StateProvider } from "app-state";
 
 const App = () => {
   const prefersLightMode = useMediaQuery('(prefers-color-scheme: light)');
