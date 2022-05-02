@@ -418,7 +418,7 @@ const HomeContent = (props) => {
           </Grid>
           {pulledResultsIDsCards.map((x, i) => (
             <Grid item xs={12} md={12} lg={12} key={"grid" + i}>
-              <Card sx={{ maxWidth: "80vw" }} key={"card" + i}>
+              <Card elevation={24} sx={{ maxWidth: "80vw" }} key={"card" + i}>
                 <CardMedia
                   component="img"
                   image={x?.image?.imagelink[5]?.url ?? ""}
