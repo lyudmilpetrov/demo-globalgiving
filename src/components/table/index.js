@@ -58,7 +58,6 @@ const descendingComparator = (a, b, orderBy) => {
   if (orderBy === "") {
     return 0;
   } else {
-    // // // // // // // // // // // // console.log([a, b, orderBy]);
     if (typeof a[orderBy] !== "object") {
       if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -93,11 +92,6 @@ const stableSort = (array, comparator) => {
   return stabilizedThis.map((el) => el[0]);
 };
 const EnhancedTableToolbar = (props) => {
-  // const classes = useToolbarStyles();
-  // const { numSelected, title } = props;
-  // const onSearchClickInner = () => {
-  //   props.onSearchClick();
-  // };
   return (
     <Toolbar sx={{ justifyContent: "flex-end" }}>
       {props.excelDownload ? (
@@ -178,7 +172,6 @@ const EnhancedTableHead = (props) => {
     counter,
     browser,
   } = props;
-  // // // // // // // // // // // // // console.log(props);
   const objRefs = {};
   const objVals = {};
   let tagArr = document.getElementsByTagName("input");
@@ -222,8 +215,6 @@ const EnhancedTableHead = (props) => {
 
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const getUniqueValues = (key, data) => {
-    // // // // // // // // // console.log(key);
-    // // // // // // // // // console.log(data);
     let unique;
     if (typeof data[0][key] !== "object") {
       unique = [...new Set(data.map((item) => item[key]))];
@@ -236,12 +227,9 @@ const EnhancedTableHead = (props) => {
     return filteredArr;
   };
   useEffect(() => {
-    // // // // // // // // // // // // // // // // // console.log(props);
-    // // // // // // // // // // // // // // // // // // console.log(getUniqueValues('Instance', props.rows));
     forceUpdate();
   }, [props]);
   useEffect(() => {
-    // // // // // // // // // // // // // // // // // // // // console.log(counter);
     clearSections();
   }, [counter]);
   const clearSections = () => {
@@ -317,19 +305,9 @@ const EnhancedTableHead = (props) => {
           break;
         default:
       }
-      // objRefs["ref" + i].current.value = "";
-      // objVals["val" + i] = "";
-      // // // // // // // // // // // // // // // // // // // console.log(typeof objRefs["ref" + i]);
-      // // // // // // // // // // // // // // // // // // // console.log(objRefs["ref0"].current.value);
-      // if (typeof objRefs["ref" + i] !== "undefined") {
-      //   if (typeof objRefs["ref" + i].current !== "undefined") {
-      //     objRefs["ref" + i].current.value = "";
-      //   }
-      // }
     });
   };
   const setValue = (v, i) => {
-    // // // // // // // // // // // // // // console.log([v, i]);
     switch (+i) {
       case 0:
         setValue0(v);
@@ -387,7 +365,6 @@ const EnhancedTableHead = (props) => {
     }
   };
   const setInputValue = (v, i, id) => {
-    // // // // // // // // // // // // // // console.log([v, i, id]);
     props.onChangeInSearch(v, id);
     switch (+i) {
       case 0:
@@ -446,7 +423,6 @@ const EnhancedTableHead = (props) => {
     }
   };
   const getValue = (i) => {
-    // // // // // // // // // // // // // // console.log(i);
     switch (+i) {
       case 0:
         return value0;
@@ -530,31 +506,9 @@ const EnhancedTableHead = (props) => {
   return (
     <TableHead>
       <TableRow>
-        {/* {(onButtonClickLable.length >= 1) ? (
-            <TableCell>
-              Functionality
-            </TableCell>
-          ) : (
-            <TableCell
-              style={{ width: "0%" }}
-            >
-            </TableCell>
-          )} */}
         <TableCell style={{ width: "0%" }}></TableCell>
         {headersData.map((headCell, i) => (
           <TableCell key={headCell.id}>
-            {/* <TextField
-                inputRef={objRefs["ref" + i]}
-                id={"search" + headCell.id}
-                label={headCell.id}
-                variant="outlined"
-                fullWidth={true}
-                margin="dense"
-                size="small"
-                onChange={(event) => {
-                  props.onChangeInSearch(event.target, headCell.id);
-                }}
-              /> */}
             <Autocomplete
               freeSolo
               selectOnFocus={true}
@@ -622,7 +576,6 @@ const EnhancedTableHead = (props) => {
   );
 };
 const EnhancedTable = (props) => {
-  console.log(props);
   const [clearCounter, setClearCounter] = useState(0);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -653,18 +606,14 @@ const EnhancedTable = (props) => {
     }
   }, []);
   const handleRequestSort = useCallback((event, property) => {
-    // // // // // // // // // // // // console.log(event);
-    // // // // // // // // // // // // console.log(property);
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   });
   const handleChangePage = (event, newPage) => {
-    // // console.log(newPage);
     setPage(newPage);
   };
   const handleChangeRowsPerPage = useCallback((event) => {
-    // // // // // // console.log(event);
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   });
@@ -685,8 +634,6 @@ const EnhancedTable = (props) => {
     setRowSearch(x);
   };
   const handleSearchClick = () => {
-    // // // // // // // // // // // // // // console.log(isObjectEmpty(rowSearch));
-    // // // // // // // // // // // // // // console.log(rowSearch);
     if (isObjectEmpty(rowSearch) !== true) {
       setSearchClicked(true);
       props.onSearchClick(rowSearch);
@@ -706,7 +653,6 @@ const EnhancedTable = (props) => {
     }
   };
   useEffect(() => {
-    // // // // // // // // // // // // // // // // // // // // // // // // console.log(props.data);
     setPage(0);
     // Some initialization logic here
     if (props.rowId !== undefined) {
@@ -757,11 +703,7 @@ const EnhancedTable = (props) => {
   }, [props.data, props.rowId, props.title, rowId]);
   useEffect(() => {
     setRowIDClicked(+props?.onButtonClickObject?.Id ?? null);
-    // // // // // // // // // // // // // // // // // // // // // // // // console.log(props.onButtonClickObject);
   }, [props.onButtonClickObject]);
-  // useEffect(() => {
-  //   // // // // // // // // // // // console.log(rowIDClicked);
-  // }, [rowIDClicked]);
   const handleButtonFunctionalityClick = useCallback(
     (row, event) => {
       isSelected(row.idr);
@@ -772,8 +714,6 @@ const EnhancedTable = (props) => {
           row.isSelected = true;
         }
       }
-      // setRowIDClicked(row.id);
-      // // // // // // // // // // console.log(row);
     },
     [rowIDClicked]
   );
@@ -825,8 +765,6 @@ const EnhancedTable = (props) => {
                       )
                       .map((row, index) => {
                         const isItemSelected = isSelected(row.idr);
-                        // // // // // // // // console.log(row.idr);
-                        // // // // // // // // console.log(row);
                         return (
                           <StyledTableRow
                             hover

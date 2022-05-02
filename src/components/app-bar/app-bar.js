@@ -35,11 +35,9 @@ const CustomAppBar = () => {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -51,10 +49,9 @@ const CustomAppBar = () => {
     context.theme = darkModeTheme;
     context.prefersDarkMode = prefersDarkMode;
     dispatch({ type: "change", payload: context });
-    // console.log(context);
   }, [prefersDarkMode]);
   return (
-    <AppBar position="sticky">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -65,7 +62,6 @@ const CustomAppBar = () => {
           >
             LOGO
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

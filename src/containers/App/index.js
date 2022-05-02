@@ -13,7 +13,6 @@ const App = () => {
   context.theme = theme;
   context.prefersLightMode = prefersLightMode;
   context.Production = true;
-  console.log(context);
   const reducer = (state, action) => {
     switch (action.type) {
       case 'usepayload':
@@ -22,7 +21,6 @@ const App = () => {
         return state;
     }
   };
-
   return (
     <StateProvider initialState={context} reducer={reducer}>
       <ThemeProvider theme={context.theme}>
