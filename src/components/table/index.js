@@ -1,5 +1,12 @@
-import React, { memo, useState, useEffect, Fragment, useCallback, useReducer, useRef } from "react";
-import { ThemeProvider, styled } from '@mui/material/styles';
+import React, {
+  memo,
+  useState,
+  useEffect,
+  Fragment,
+  useCallback,
+  useReducer,
+} from "react";
+import { ThemeProvider, styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -15,28 +22,26 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Skeleton from "@mui/material/Skeleton";
 import TextField from "@mui/material/TextField";
-import TableSortLabel from '@mui/material/TableSortLabel';
+import TableSortLabel from "@mui/material/TableSortLabel";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import Button from "@mui/material/Button";
-import { isObjectEmpty } from "app-helpers-custom-functions";
-import ClearSharpIcon from '@mui/icons-material/ClearSharp';
-import Link from '@mui/material/Link';
-import UndoIcon from '@mui/icons-material/Undo';
-import Autocomplete from '@mui/material/Autocomplete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import FileDownloadSharpIcon from '@mui/icons-material/FileDownloadSharp';
-import Stack from '@mui/material/Stack';
-import { visuallyHidden } from '@mui/utils';
+import { isObjectEmpty } from "app-helpers";
+import ClearSharpIcon from "@mui/icons-material/ClearSharp";
+import Link from "@mui/material/Link";
+import UndoIcon from "@mui/icons-material/Undo";
+import Autocomplete from "@mui/material/Autocomplete";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import FileDownloadSharpIcon from "@mui/icons-material/FileDownloadSharp";
+import Stack from "@mui/material/Stack";
+import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
-import Checkbox from '@mui/material/Checkbox';
-//https://mui.com/components/autocomplete/
-
+import Checkbox from "@mui/material/Checkbox";
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
@@ -50,11 +55,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 const descendingComparator = (a, b, orderBy) => {
-  if (orderBy === '') {
+  if (orderBy === "") {
     return 0;
   } else {
     // // // // // // // // // // // // console.log([a, b, orderBy]);
-    if (typeof a[orderBy] !== 'object') {
+    if (typeof a[orderBy] !== "object") {
       if (b[orderBy] < a[orderBy]) {
         return -1;
       }
@@ -78,7 +83,6 @@ const getComparator = (order, orderBy) => {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 };
-
 const stableSort = (array, comparator) => {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -88,7 +92,6 @@ const stableSort = (array, comparator) => {
   });
   return stabilizedThis.map((el) => el[0]);
 };
-
 const EnhancedTableToolbar = (props) => {
   // const classes = useToolbarStyles();
   // const { numSelected, title } = props;
@@ -98,18 +101,15 @@ const EnhancedTableToolbar = (props) => {
   return (
     <Toolbar sx={{ justifyContent: "flex-end" }}>
       {props.excelDownload ? (
-        <Stack
-          direction="row"
-          spacing={3}
-          sx={{ flexGrow: 1 }}
-        >
+        <Stack direction="row" spacing={3} sx={{ flexGrow: 1 }}>
           <Tooltip title="Export to excel">
-            <Button sx={{
-              marginRight: "10px",
-              align: "center",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
+            <Button
+              sx={{
+                marginRight: "10px",
+                align: "center",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               size="small"
               variant="outlined"
               color="primary"
@@ -117,23 +117,21 @@ const EnhancedTableToolbar = (props) => {
               onClick={() => {
                 props.onExcelExport();
               }}
-            >
-            </Button>
+            ></Button>
           </Tooltip>
         </Stack>
-      ) : (<span></span>)}
-      <Stack
-        direction="row"
-        spacing={3}
-        sx={{ justifyContent: "flex-end" }}
-      >
+      ) : (
+        <span></span>
+      )}
+      <Stack direction="row" spacing={3} sx={{ justifyContent: "flex-end" }}>
         <Tooltip title="Clear">
-          <Button sx={{
-            marginRight: "10px",
-            align: "center",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
+          <Button
+            sx={{
+              marginRight: "10px",
+              align: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             size="small"
             variant="outlined"
             color="primary"
@@ -141,8 +139,7 @@ const EnhancedTableToolbar = (props) => {
             onClick={() => {
               props.onClearClick();
             }}
-          >
-          </Button>
+          ></Button>
         </Tooltip>
         <Tooltip title="Referesh" sx={{ marginRight: "10px" }}>
           <Button
@@ -165,22 +162,28 @@ const EnhancedTableToolbar = (props) => {
             onClick={() => {
               props.onSearchClick();
             }}
-          >
-          </Button>
+          ></Button>
         </Tooltip>
       </Stack>
     </Toolbar>
   );
 };
-
 const EnhancedTableHead = (props) => {
-  const { order, orderBy, onRequestSort, headersData, onButtonClickLable, counter, browser } = props;
+  const {
+    order,
+    orderBy,
+    onRequestSort,
+    headersData,
+    onButtonClickLable,
+    counter,
+    browser,
+  } = props;
   // // // // // // // // // // // // // console.log(props);
   const objRefs = {};
   const objVals = {};
   let tagArr = document.getElementsByTagName("input");
   for (let i = 0; i < tagArr.length; i++) {
-    tagArr[i].autocomplete = browser + '-off';
+    tagArr[i].autocomplete = browser + "-off";
   }
   const [value0, setValue0] = useState(null);
   const [value1, setValue1] = useState(null);
@@ -217,21 +220,21 @@ const EnhancedTableHead = (props) => {
   const [inputValue15, setInputValue15] = useState("");
   const [inputValue16, setInputValue16] = useState("");
 
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const getUniqueValues = (key, data) => {
     // // // // // // // // // console.log(key);
     // // // // // // // // // console.log(data);
     let unique;
-    if (typeof data[0][key] !== 'object') {
-      unique = [...new Set(data.map(item => item[key]))];
+    if (typeof data[0][key] !== "object") {
+      unique = [...new Set(data.map((item) => item[key]))];
     } else {
-      unique = [...new Set(data.map(item => item[key]?.id))];
+      unique = [...new Set(data.map((item) => item[key]?.id))];
     }
     const filteredArr = unique.filter(function (elem) {
-      return (elem !== undefined && elem !== '');
+      return elem !== undefined && elem !== "";
     });
     return filteredArr;
-  }
+  };
   useEffect(() => {
     // // // // // // // // // // // // // // // // // console.log(props);
     // // // // // // // // // // // // // // // // // // console.log(getUniqueValues('Instance', props.rows));
@@ -246,71 +249,71 @@ const EnhancedTableHead = (props) => {
       switch (i) {
         case 0:
           setValue0(null);
-          setInputValue0('');
+          setInputValue0("");
           break;
         case 1:
           setValue1(null);
-          setInputValue1('');
+          setInputValue1("");
           break;
         case 2:
           setValue2(null);
-          setInputValue2('');
+          setInputValue2("");
           break;
         case 3:
           setValue3(null);
-          setInputValue3('');
+          setInputValue3("");
           break;
         case 4:
           setValue4(null);
-          setInputValue4('');
+          setInputValue4("");
           break;
         case 5:
           setValue5(null);
-          setInputValue5('');
+          setInputValue5("");
           break;
         case 6:
           setValue6(null);
-          setInputValue6('');
+          setInputValue6("");
           break;
         case 7:
           setValue7(null);
-          setInputValue7('');
+          setInputValue7("");
           break;
         case 8:
           setValue8(null);
-          setInputValue8('');
+          setInputValue8("");
           break;
         case 9:
           setValue9(null);
-          setInputValue9('');
+          setInputValue9("");
           break;
         case 10:
           setValue10(null);
-          setInputValue10('');
+          setInputValue10("");
           break;
         case 11:
           setValue11(null);
-          setInputValue11('');
+          setInputValue11("");
           break;
         case 12:
           setValue12(null);
-          setInputValue12('');
+          setInputValue12("");
           break;
         case 13:
           setValue13(null);
-          setInputValue13('');
+          setInputValue13("");
           break;
         case 14:
           setValue14(null);
-          setInputValue14('');
+          setInputValue14("");
           break;
         case 15:
           setValue15(null);
-          setInputValue15('');
+          setInputValue15("");
           break;
         case 16:
           setValue16(null);
-          setInputValue16('');
+          setInputValue16("");
           break;
         default:
       }
@@ -382,7 +385,7 @@ const EnhancedTableHead = (props) => {
       default:
         break;
     }
-  }
+  };
   const setInputValue = (v, i, id) => {
     // // // // // // // // // // // // // // console.log([v, i, id]);
     props.onChangeInSearch(v, id);
@@ -441,7 +444,7 @@ const EnhancedTableHead = (props) => {
       default:
         break;
     }
-  }
+  };
   const getValue = (i) => {
     // // // // // // // // // // // // // // console.log(i);
     switch (+i) {
@@ -481,7 +484,7 @@ const EnhancedTableHead = (props) => {
         return value16;
       default:
     }
-  }
+  };
   const getInputValue = (i) => {
     switch (+i) {
       case 0:
@@ -520,7 +523,7 @@ const EnhancedTableHead = (props) => {
         return inputValue16;
       default:
     }
-  }
+  };
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -537,10 +540,7 @@ const EnhancedTableHead = (props) => {
             >
             </TableCell>
           )} */}
-        <TableCell
-          style={{ width: "0%" }}
-        >
-        </TableCell>
+        <TableCell style={{ width: "0%" }}></TableCell>
         {headersData.map((headCell, i) => (
           <TableCell key={headCell.id}>
             {/* <TextField
@@ -573,7 +573,7 @@ const EnhancedTableHead = (props) => {
               id={"search1" + headCell.id}
               options={getUniqueValues(headCell?.id, props?.rows)}
               sx={{ width: 120 }}
-              renderInput={(params) =>
+              renderInput={(params) => (
                 <TextField
                   {...params}
                   id={"search2" + headCell?.id}
@@ -583,23 +583,16 @@ const EnhancedTableHead = (props) => {
                   size="small"
                   label={headCell?.id}
                 />
-              }
+              )}
             />
-
           </TableCell>
         ))}
       </TableRow>
       <TableRow>
-        {(onButtonClickLable.length >= 1) ? (
-          <TableCell
-            style={{ width: "0%" }}
-          >
-          </TableCell>
+        {onButtonClickLable.length >= 1 ? (
+          <TableCell style={{ width: "0%" }}></TableCell>
         ) : (
-          <TableCell
-            style={{ width: "0%" }}
-          >
-          </TableCell>
+          <TableCell style={{ width: "0%" }}></TableCell>
         )}
         {headersData.map((headCell, index) => (
           <TableCell
@@ -618,7 +611,7 @@ const EnhancedTableHead = (props) => {
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -629,7 +622,7 @@ const EnhancedTableHead = (props) => {
   );
 };
 const EnhancedTable = (props) => {
-  // // // // // // // // // // console.log(props);
+  console.log(props);
   const [clearCounter, setClearCounter] = useState(0);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -655,7 +648,7 @@ const EnhancedTable = (props) => {
     if (props.onButtonClickLable !== undefined) {
       setOnButtonClickLable(props.onButtonClickLable);
     }
-    if (typeof props.onExcelExportClick !== 'undefined') {
+    if (typeof props.onExcelExportClick !== "undefined") {
       setShowExcelDownload(true);
     }
   }, []);
@@ -724,11 +717,13 @@ const EnhancedTable = (props) => {
     if (props.data !== undefined) {
       if (props.data.length > 0) {
         let keys = Object.keys(props.data[0]);
-        let newKeys = keys.filter((value) => {
-          return value !== rowId;
-        }).filter((value) => {
-          return value !== 'isSelected';
-        });
+        let newKeys = keys
+          .filter((value) => {
+            return value !== rowId;
+          })
+          .filter((value) => {
+            return value !== "isSelected";
+          });
         let newHeaders = [];
         newKeys.map((v) => {
           let objHeader = {
@@ -767,23 +762,29 @@ const EnhancedTable = (props) => {
   // useEffect(() => {
   //   // // // // // // // // // // // console.log(rowIDClicked);
   // }, [rowIDClicked]);
-  const handleButtonFunctionalityClick = useCallback((row, event) => {
-    isSelected(row.idr);
-    if (typeof row.isSelected !== 'undefined') {
-      if (row.isSelected) {
-        row.isSelected = false;
-      } else {
-        row.isSelected = true;
+  const handleButtonFunctionalityClick = useCallback(
+    (row, event) => {
+      isSelected(row.idr);
+      if (typeof row.isSelected !== "undefined") {
+        if (row.isSelected) {
+          row.isSelected = false;
+        } else {
+          row.isSelected = true;
+        }
       }
-    }
-    // setRowIDClicked(row.id);
-    // // // // // // // // // // console.log(row);
-  }, [rowIDClicked]);
+      // setRowIDClicked(row.id);
+      // // // // // // // // // // console.log(row);
+    },
+    [rowIDClicked]
+  );
   if (props.data !== undefined) {
     if (rows.length > 0 && props.data.length > 0) {
       return (
         <Fragment>
-          <Paper elevation={12} sx={{ overflow: "hidden", width: "100%", marginTop: "10px" }}>
+          <Paper
+            elevation={12}
+            sx={{ overflow: "hidden", width: "100%", marginTop: "10px" }}
+          >
             <EnhancedTableToolbar
               numSelected={selected.length}
               title={title}
@@ -835,20 +836,23 @@ const EnhancedTable = (props) => {
                             key={row.idr.toString() + index.toString() + "r"}
                             selected={isItemSelected}
                           >
-                            {(onButtonClickLable.length >= 1) ? (
-                              (onButtonClickLable.includes('Add ') === false) ? (
+                            {onButtonClickLable.length >= 1 ? (
+                              onButtonClickLable.includes("Add ") === false ? (
                                 <StyledTableCell
                                   key={row.idr + headers.length + "rcF"}
                                   align="right"
                                 >
-                                  {(+rowIDClicked !== +row?.id) ? (
+                                  {+rowIDClicked !== +row?.id ? (
                                     <Button
                                       size="small"
                                       variant="outlined"
                                       color="primary"
                                       onClick={(event) => {
                                         props.onButtonClick(row, event);
-                                        handleButtonFunctionalityClick(row, event);
+                                        handleButtonFunctionalityClick(
+                                          row,
+                                          event
+                                        );
                                       }}
                                     >
                                       {props?.onButtonClickLable}
@@ -863,10 +867,13 @@ const EnhancedTable = (props) => {
                                     color="primary"
                                     // checked={row.isSelected}
                                     inputProps={{
-                                      'aria-labelledby': 'Add',
+                                      "aria-labelledby": "Add",
                                     }}
                                     onClick={(event) => {
-                                      handleButtonFunctionalityClick(row, event);
+                                      handleButtonFunctionalityClick(
+                                        row,
+                                        event
+                                      );
                                       props.onButtonClick(row, event);
                                     }}
                                   />
@@ -875,33 +882,40 @@ const EnhancedTable = (props) => {
                             ) : (
                               <StyledTableCell
                                 style={{ width: "0%" }}
-                              >
-                              </StyledTableCell>
+                              ></StyledTableCell>
                             )}
                             {headers.map((x, i) => {
                               let v = row[x.id];
-                              if (Object.prototype.toString.call(v) !== "[object Object]") {
+                              if (
+                                Object.prototype.toString.call(v) !==
+                                "[object Object]"
+                              ) {
                                 return (
                                   <StyledTableCell
                                     onClick={(event) => {
                                       props.onRowClick(row, event, false, v);
                                     }}
-                                    key={row.idr.toString() + i.toString() + "rc"}
+                                    key={
+                                      row.idr.toString() + i.toString() + "rc"
+                                    }
                                     align={x.align}
                                   >
                                     {v}
                                   </StyledTableCell>
                                 );
                               } else {
-                                return (<StyledTableCell
-                                  onClick={(event) => {
-                                    props.onRowClick(row, event, true, v);
-                                  }}
-                                  key={row.idr.toString() + i.toString() + "rc"}
-                                  align={x.align}
-                                >
-                                  <Link variant="body2">{v.id}</Link>
-                                </StyledTableCell>
+                                return (
+                                  <StyledTableCell
+                                    onClick={(event) => {
+                                      props.onRowClick(row, event, true, v);
+                                    }}
+                                    key={
+                                      row.idr.toString() + i.toString() + "rc"
+                                    }
+                                    align={x.align}
+                                  >
+                                    <Link variant="body2">{v.id}</Link>
+                                  </StyledTableCell>
                                 );
                               }
                             })}
@@ -940,11 +954,18 @@ const EnhancedTable = (props) => {
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
-              onRowsPerPageChange={(event, newPage) => handleChangeRowsPerPage(event, newPage)}
+              onRowsPerPageChange={(event, newPage) =>
+                handleChangeRowsPerPage(event, newPage)
+              }
             />
           </Paper>
           <FormControlLabel
-            control={<Switch checked={dense} onChange={(event) => handleChangeDense(event)} />}
+            control={
+              <Switch
+                checked={dense}
+                onChange={(event) => handleChangeDense(event)}
+              />
+            }
             label={denseLable}
           />
         </Fragment>
